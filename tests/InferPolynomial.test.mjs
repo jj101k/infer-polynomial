@@ -14,7 +14,7 @@ describe("InferPolynomial tests", () => {
 
     it("can infer a trivial case", () => {
         const renderPoints1 = {1: 1, 2: 3}
-        expect(InferPolynomial.getPoly(renderPoints1)).toStrictEqual([-1, 2])
+        expect(InferPolynomial.infer(renderPoints1)).toStrictEqual([-1, 2])
     })
     it("can infer a complex case", () => {
         /**
@@ -27,7 +27,7 @@ describe("InferPolynomial tests", () => {
         const inPoints = [0.1, 0.5, 0.6, 0.7]
         const renderPoints2 = render(p2, inPoints, 1e1)
 
-        const po = InferPolynomial.getPoly(renderPoints2)
+        const po = InferPolynomial.infer(renderPoints2)
         const p3 = InferPolynomial.polyFunction(po)
         expect(render(p3, inPoints, 1e1)).toStrictEqual(renderPoints2)
     })

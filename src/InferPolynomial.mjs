@@ -33,7 +33,7 @@ export class InferPolynomial {
      * @returns The detected polynomial factors. This might not exactly match, but will
      * work correctly.
      */
-    static getPoly(renderPoints) {
+    static infer(renderPoints) {
         const inPoints = [...Object.keys(renderPoints).map(k => +k)]
         const renderPointsCount = Object.keys(renderPoints).length
         const outPointsM = Matrix.from1DArray(renderPointsCount, 1, [...Object.values(renderPoints)])
