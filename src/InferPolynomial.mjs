@@ -34,9 +34,9 @@ export class InferPolynomial {
      * work correctly.
      */
     static infer(renderPoints) {
-        const inPoints = [...Object.keys(renderPoints).map(k => +k)]
-        const renderPointsCount = Object.keys(renderPoints).length
-        const outPointsM = Matrix.from1DArray(renderPointsCount, 1, [...Object.values(renderPoints)])
+        const inPoints = Object.keys(renderPoints).map(k => +k)
+        const renderPointsCount = inPoints.length
+        const outPointsM = Matrix.from1DArray(renderPointsCount, 1, Object.values(renderPoints))
 
         const p_w_in = new Matrix(0, renderPointsCount)
         for(const ip of inPoints) {
@@ -44,7 +44,7 @@ export class InferPolynomial {
         }
 
         const inv_p_w_in = inverse(p_w_in)
-        return [...inv_p_w_in.mmul(outPointsM)].map(i => i[2])
+        return [...inv_p_w_in.mmul(outPointsM)].map(([, , i]) => i)
     }
 
     /**
@@ -55,10 +55,10 @@ export class InferPolynomial {
      * work correctly.
      */
     static infer2d(renderPoints) {
-        const inPoints = [...Object.keys(renderPoints).map(k => +k)]
-        const renderPointsCount = Object.keys(renderPoints).length
+        const inPoints = Object.keys(renderPoints).map(k => +k)
+        const renderPointsCount = inPoints.length
         const renderPointsW = Object.values(renderPoints)[0].length
-        const r = Matrix.from1DArray(renderPointsCount, renderPointsW, [...Object.values(renderPoints).flat()])
+        const r = Matrix.from1DArray(renderPointsCount, renderPointsW, Object.values(renderPoints).flat())
 
         const p_w_in = new Matrix(0, renderPointsCount)
         for(const ip of inPoints) {
@@ -66,7 +66,7 @@ export class InferPolynomial {
         }
 
         const inv_p_w_in = inverse(p_w_in)
-        return [...inv_p_w_in.mmul(r)].map(i => i[2])
+        return [...inv_p_w_in.mmul(r)].map(([, , i]) => i)
     }
 
     /**
