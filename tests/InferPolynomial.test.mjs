@@ -1,18 +1,18 @@
 import { InferPolynomial } from "../index.mjs"
 
 describe("InferPolynomial tests", () => {
+    /**
+     *
+     * @param {(a: number) => number} p
+     * @param {number[]} points
+     * @param {number} [roundFactor=1e0]
+     * @returns A straight map from points to results of running through
+     * p(), rounded.
+     */
+    const render = (p, points, roundFactor = 1e0) => {
+        return Object.fromEntries(points.map(i => [i, Math.round(p(i) * roundFactor) / roundFactor]))
+    }
     describe("infer()", () => {
-        /**
-         *
-         * @param {(a: number) => number} p
-         * @param {number[]} points
-         * @param {number} [roundFactor=1e0]
-         * @returns
-         */
-        const render = (p, points, roundFactor = 1e0) => {
-            return Object.fromEntries(points.map(i => [i, Math.round(p(i) * roundFactor) / roundFactor]))
-        }
-
         it("can infer a trivial case", () => {
             const renderPoints1 = {1: 1, 2: 3}
             expect(InferPolynomial.infer(renderPoints1)).toStrictEqual([-1, 2])
@@ -34,17 +34,6 @@ describe("InferPolynomial tests", () => {
         })
     })
     describe("infer2d()", () => {
-        /**
-         *
-         * @param {(a: number) => number} p
-         * @param {number[]} points
-         * @param {number} [roundFactor=1e0]
-         * @returns
-         */
-        const render = (p, points, roundFactor = 1e0) => {
-            return Object.fromEntries(points.map(i => [i, Math.round(p(i) * roundFactor) / roundFactor]))
-        }
-
         it("can infer a trivial case", () => {
             const renderPoints1 = {1: [1,2], 2: [3,4]}
             // ???
