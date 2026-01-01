@@ -48,6 +48,28 @@ export class InferPolynomial {
     }
 
     /**
+     * This works like infer(), except that it operates on 2D values
+     *
+     * @param {Record<number, number[]>} renderPoints
+     * @returns The detected polynomial factors. This might not exactly match, but will
+     * work correctly.
+     */
+    static infer2d(renderPoints) {
+        const inPoints = [...Object.keys(renderPoints).map(k => +k)]
+        const renderPointsCount = Object.keys(renderPoints).length
+        const renderPointsW = Object.values(renderPoints)[0].length
+        const r = Matrix.from1DArray(renderPointsCount, renderPointsW, [...Object.values(renderPoints).flat()])
+
+        const p_w_in = new Matrix(0, renderPointsCount)
+        for(const ip of inPoints) {
+            p_w_in.addRow([...new Array(renderPointsCount)].map((_, i) => Math.pow(ip, i)))
+        }
+
+        const inv_p_w_in = inverse(p_w_in)
+        return [...inv_p_w_in.mmul(r)].map(i => i[2])
+    }
+
+    /**
      *
      * @param {number[]} polyPoints eg. [2, 3] means 2x^0 + 3x^1
      * @returns A function which will "run" the polynomial against a supplied
